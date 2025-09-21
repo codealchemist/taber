@@ -1,0 +1,51 @@
+{
+  "E": {
+    "start": 0,
+    "mutedOpenStrings": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "strings": [
+      [
+        false,
+        false,
+        false,
+        false
+      ],
+      [
+        false,
+        2,
+        false,
+        false
+      ],
+      [
+        false,
+        3,
+        false,
+        false
+      ],
+      [
+        1,
+        false,
+        false,
+        false
+      ],
+      [
+        false,
+        false,
+        false,
+        false
+      ],
+      [
+        false,
+        false,
+        false,
+        false
+      ]
+    ]
+  }
+}

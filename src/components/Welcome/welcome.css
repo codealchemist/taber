@@ -1,0 +1,12 @@
+.welcome {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+p {
+  font-size: 1.1rem;
+  color: #565656;
+  margin: 0;
+}
