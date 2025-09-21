@@ -70,7 +70,9 @@ function App () {
         )}
       </div>
       <footer>
-        <p>Made with ❤️ by Bert</p>
+        <p>
+          Made with ❤️ by <a href='https://github.com/codealchemist'>Bert</a>
+        </p>
       </footer>
     </>
   )
