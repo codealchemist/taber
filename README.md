@@ -16,7 +16,3 @@ https://taber.netlify.app
 
 - [x] Quick tab
 - [ ] Tab collections
-
-## Known issues
-
-- If we remove a tab that's not the last one the next tab number will be `lastNum - 1`. Which will duplicate the last used number. To get the right finger positions we need to add tabs in the right sequence for now.

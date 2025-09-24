@@ -47,8 +47,12 @@ function log () {
 export default function Tab (props) {
   // log('Rendering Tab with props:', props)
   const [isEditMode, setIsEditMode] = useState(!!props.edit)
+  const [isTabMode, setIsTabMode] = useState(false)
   const [editPosition, setEditPosition] = useState({ string: 0, fret: 1 })
-  const [lastFingerNumber, setLastFingerNumber] = useState(0)
+  const [settingNumber, setSettingNumber] = useState({
+    string: null,
+    fret: null
+  })
   const chordData = chordsCollection?.[props.chord]
   const [mutedOpenStrings, setMutedOpenStrings] = useState(
     chordData?.mutedOpenStrings || []
@@ -104,11 +108,9 @@ export default function Tab (props) {
     if (newStrings[stringIndex][fretIndex]) {
       // Remove finger.
       newStrings[stringIndex][fretIndex] = false
-      setLastFingerNumber(lastFingerNumber - 1)
     } else {
       // Add finger.
-      newStrings[stringIndex][fretIndex] = lastFingerNumber + 1
-      setLastFingerNumber(lastFingerNumber + 1)
+      newStrings[stringIndex][fretIndex] = true
     }
     log('Updating 👉', stringIndex, 'fret', fretIndex, { newStrings })
     setStrings(newStrings)
@@ -193,6 +195,12 @@ export default function Tab (props) {
     )
   }
 
+  function setPositionNumber ({ string, fret }) {
+    if (!isEditMode) return
+    log('Settings number on', { string, fret })
+    setSettingNumber({ string, fret })
+  }
+
   // Add keyboard shortcuts for editing the tab
   // Add finger at the current edit position
   useHotkeys(
@@ -201,6 +209,14 @@ export default function Tab (props) {
       addRemoveFinger(editPosition.string, editPosition.fret)
     },
     [isEditMode, editPosition, strings]
+  )
+
+  useHotkeys(
+    't',
+    () => {
+      setIsTabMode(!isTabMode)
+    },
+    [isEditMode, editPosition, isTabMode]
   )
 
   // Add capo at the current fret
@@ -276,6 +292,14 @@ export default function Tab (props) {
   )
 
   useHotkeys(
+    'Shift+Enter',
+    () => {
+      setPositionNumber(editPosition)
+    },
+    [isEditMode, editPosition]
+  )
+
+  useHotkeys(
     'm',
     () => {
       muteOpenString(editPosition.string)
@@ -305,21 +329,52 @@ export default function Tab (props) {
     <div className='tab-container' ref={ref}>
       <div className='tab'>
         {/* Draw strings with finger positions (dots). */}
-        {strings.map((string, index) => (
-          <div key={index} className='tab-string'>
-            <span className='tab-string-label'>{stringsCount - index}</span>
-            {getMutedOpenString(index)}
+        {strings.map((string, stringIndex) => (
+          <div key={stringIndex} className='tab-string'>
+            <span className='tab-string-label'>
+              {stringsCount - stringIndex}
+            </span>
+            {getMutedOpenString(stringIndex)}
 
             {string.map((fingerNumber, fretIndex) => (
               <span
                 key={fretIndex}
                 className={getPositionClassName({
-                  string: index,
+                  string: stringIndex,
                   fret: fretIndex,
                   pressed: fingerNumber
                 })}
               >
-                <p>{fingerNumber}</p>
+                <p>{typeof fingerNumber === 'number' ? fingerNumber : ''}</p>
+
+                {settingNumber.string === stringIndex &&
+                settingNumber.fret === fretIndex ? (
+                  <input
+                    type='number'
+                    className='tab-fret-number-input'
+                    autoFocus
+                    onBlur={e => {
+                      const value = parseInt(e.target.value, 10)
+                      if (!isNaN(value)) {
+                        log('Setting finger number:', {
+                          value,
+                          stringIndex,
+                          fretIndex
+                        })
+                        const newStrings = [...strings]
+                        newStrings[stringIndex][fretIndex] = value
+                        setStrings(newStrings)
+                        props.onChange?.(newStrings)
+                      }
+                      setSettingNumber({ string: null, fret: null })
+                    }}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter') {
+                        e.target.blur()
+                      }
+                    }}
+                  />
+                ) : null}
               </span>
             ))}
           </div>
@@ -334,10 +389,12 @@ export default function Tab (props) {
         {strings[0].map((_, fretIndex) => (
           <span
             key={fretIndex}
-            className='tab-fret-line'
+            className={isTabMode === true ? '' : 'tab-fret-line'}
             style={{ left: `calc(30px * ${fretIndex})` }}
           >
-            <span className='tab-fret-number'>{fretIndex + start}</span>
+            <span className='tab-fret-number'>
+              {isTabMode === true ? '' : fretIndex + start}
+            </span>
           </span>
         ))}
       </div>

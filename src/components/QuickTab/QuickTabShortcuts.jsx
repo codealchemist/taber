@@ -46,13 +46,19 @@ export default function QuickTabShortcuts () {
             <strong>y</strong> Redo
           </li>
           <li>
-            <strong>^C</strong> Copy Tab Image
+            <strong>t</strong> Tab Mode On/Off
+          </li>
+          <li>
+            <strong>Shift+Enter</strong> Set Number
           </li>
           <li>
             <strong>m</strong> Mute String
           </li>
           <li>
             <strong>0-9</strong> Set Start
+          </li>
+          <li>
+            <strong>^C</strong> Copy Tab Image
           </li>
           <li>
             <strong>Enter</strong> Put Finger
