@@ -163,7 +163,7 @@ export default function Tab (props) {
 
   function getPositionClassName ({ string, fret, pressed }) {
     let className = 'tab-fret'
-    if (pressed) className += ' pressed'
+    if (pressed !== false) className += ' pressed'
     if (
       isEditMode &&
       editPosition.string === string &&
@@ -199,6 +199,16 @@ export default function Tab (props) {
     if (!isEditMode) return
     log('Settings number on', { string, fret })
     setSettingNumber({ string, fret })
+  }
+
+  function reset () {
+    if (!isEditMode) return
+    log('Resetting tab')
+    const newStrings = strings.map(string => string.map(() => false))
+    setStrings(newStrings)
+    setStart(1)
+    setMutedOpenStrings([])
+    props.onChange?.(newStrings, 1, [])
   }
 
   // Add keyboard shortcuts for editing the tab
@@ -297,6 +307,14 @@ export default function Tab (props) {
       setPositionNumber(editPosition)
     },
     [isEditMode, editPosition]
+  )
+
+  useHotkeys(
+    'r',
+    () => {
+      reset()
+    },
+    [isEditMode, editPosition, strings]
   )
 
   useHotkeys(

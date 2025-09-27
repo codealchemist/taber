@@ -64,6 +64,9 @@ export default function QuickTabShortcuts () {
             <strong>Enter</strong> Put Finger
           </li>
           <li>
+            <strong>r</strong> Reset
+          </li>
+          <li>
             <strong>q</strong> Exit Quick Tab
           </li>
           <li>
