@@ -9,6 +9,9 @@ import {
   createCollection
 } from './store/slices/tab-collections.slice'
 import './App.css'
+import pkg from '../package.json'
+
+const version = pkg.version
 
 function log () {
   console.log('[ App ]', ...arguments)
@@ -73,6 +76,8 @@ function App () {
         <p>
           Made with ❤️ by <a href='https://github.com/codealchemist'>Bert</a>
         </p>
+        <p>·</p>
+        <p>v{version}</p>
       </footer>
     </>
   )

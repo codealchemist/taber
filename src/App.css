@@ -37,6 +37,9 @@ footer {
   text-align: center;
   background-color: #3a3835;
   padding: 0.1rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
 footer p {
