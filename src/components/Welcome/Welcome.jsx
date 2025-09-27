@@ -11,7 +11,7 @@ export default function Welcome () {
         Try <strong>Quick Tab mode</strong> using the `q` key.
       </p>
       <p>
-        Use <strong>Tab Collections</strong> for the whole suite.
+        TODO: Use <strong>Tab Collections</strong> for the whole suite.
       </p>
       <br />
       <p>
